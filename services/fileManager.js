@@ -11,6 +11,17 @@ const getAllTalkers = async () => {
     }
 };
 
+const getTalkerById = async (id) => {
+    try {
+        const arrayTalkers = await getAllTalkers();
+        const talker = arrayTalkers.find((t) => t.id === id);
+        return talker;
+    } catch (error) {
+        return error;
+    }
+};
+
 module.exports = {
     getAllTalkers,
+    getTalkerById,
 };
