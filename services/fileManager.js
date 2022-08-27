@@ -36,8 +36,15 @@ const verifyId = async (provided) => {
     return last + 1;
 };
 
+const deleteById = async (id) => {
+    const arrayTalkers = await getAllTalkers();
+    const filetered = arrayTalkers.filter((talker) => talker.id !== id);
+    await fs.writeFile(talkers, JSON.stringify(filetered));
+};
+
 module.exports = {
     getAllTalkers,
     getTalkerById,
     verifyId,
+    deleteById,
 };

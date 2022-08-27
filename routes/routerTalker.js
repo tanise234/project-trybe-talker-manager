@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getAllTalkers, getTalkerById, verifyId } = require('../services/fileManager');
+const { getAllTalkers, getTalkerById, verifyId, deleteById } = require('../services/fileManager');
 const tokenValidation = require('../services/tokenValidation');
 const talkerValidation = require('../services/talkerValidation');
 
@@ -35,6 +35,16 @@ routerTalker.put('/talker/:id', tokenValidation, talkerValidation, async (req, r
     try {
         const id = req.params;
         return res.status(200).json([{ id }]);
+    } catch (error) {
+        return error;
+    }
+});
+
+routerTalker.delete('/talker/:id', tokenValidation, async (req, res) => {
+    try {
+        const id = req.params;
+        deleteById(id);
+        return res.status(204).end();
     } catch (error) {
         return error;
     }
