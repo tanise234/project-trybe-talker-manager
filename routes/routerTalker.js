@@ -35,6 +35,27 @@ routerTalker.get('/talker/:id', async (req, res) => {
     }
 });
 
+routerTalker.get('/talker/search?q=searchTerm', tokenValidation, async (req, res) => {
+    try {
+        const keyword = req.query;
+        console.log(keyword);
+        const talkers = await getAllTalkers();
+        if (!keyword) return res.status(200).json(talkers);
+        return res.status(200).json([
+            { id: 1,
+name: 'Danielle Santos',
+              age: 56,
+              talk: {
+                watchedAt: '22/10/2019',
+                rate: 5,
+              },
+            },
+          ]);
+    } catch (error) {
+        return error;
+    }
+});
+
 routerTalker.post('/talker', tokenValidation, talkerValidation, async (req, res) => {
     try {
         const talker = req.body;
