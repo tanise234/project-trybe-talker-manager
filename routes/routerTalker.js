@@ -4,6 +4,7 @@ const {
     getTalkerById,
     deleteById,
     addTalker,
+    updtTalker,
 } = require('../services/fileManager');
 const tokenValidation = require('../services/tokenValidation');
 const talkerValidation = require('../services/talkerValidation');
@@ -47,7 +48,9 @@ routerTalker.post('/talker', tokenValidation, talkerValidation, async (req, res)
 routerTalker.put('/talker/:id', tokenValidation, talkerValidation, async (req, res) => {
     try {
         const { id } = req.params;
-        return res.status(200).json([{ id }]);
+        const data = req.body;
+        const updated = await updtTalker(id, data);
+        return res.status(200).json(updated);
     } catch (error) {
         return error;
     }

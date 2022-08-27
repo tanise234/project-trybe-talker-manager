@@ -37,6 +37,27 @@ const addTalker = async (talker) => {
     }
 };
 
+const updtTalker = async (id, data) => {
+    const arrayTalkers = await getAllTalkers();
+    let updatedTalker;
+    try {
+        for (let i = 0; i < arrayTalkers.length; i += 1) {
+            const talker = arrayTalkers[i];        
+            if (talker.id === Number(id)) {
+                talker.name = data.name;
+                talker.age = data.age;
+                talker.talk.watchedAt = data.talk.watchedAt;
+                talker.talk.rate = data.talk.rate;
+                updatedTalker = talker;
+                } 
+        }
+        await fs.writeFile(talkers, JSON.stringify(arrayTalkers));
+        return updatedTalker;
+    } catch (error) {
+        return error;
+    }
+};
+
 const verifyId = async (provided) => {
     const arrayTalkers = await getAllTalkers();
     let savedId = null;
@@ -61,5 +82,6 @@ module.exports = {
     getTalkerById,
     verifyId,
     addTalker,
+    updtTalker,
     deleteById,
 };
