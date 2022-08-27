@@ -31,4 +31,13 @@ routerTalker.post('/talker', tokenValidation, talkerValidation, async (req, res)
     }
 });
 
+routerTalker.put('/talker/:id', tokenValidation, talkerValidation, async (req, res) => {
+    try {
+        const id = req.params;
+        return res.status(200).json([{ id }]);
+    } catch (error) {
+        return error;
+    }
+});
+
 module.exports = routerTalker;
