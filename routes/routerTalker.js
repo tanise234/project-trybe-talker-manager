@@ -2,7 +2,6 @@ const { Router } = require('express');
 const {
     getAllTalkers,
     getTalkerById,
-    verifyId,
     deleteById,
     addTalker,
 } = require('../services/fileManager');
@@ -38,7 +37,6 @@ routerTalker.get('/talker/:id', async (req, res) => {
 routerTalker.post('/talker', tokenValidation, talkerValidation, async (req, res) => {
     try {
         const talker = req.body;
-        const id = await verifyId(talker);
         const added = await addTalker(talker);
         return res.status(201).json(added);
     } catch (error) {
