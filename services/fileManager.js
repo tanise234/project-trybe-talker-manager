@@ -37,9 +37,13 @@ const verifyId = async (provided) => {
 };
 
 const deleteById = async (id) => {
-    const arrayTalkers = await getAllTalkers();
-    const filetered = arrayTalkers.filter((talker) => talker.id !== id);
-    await fs.writeFile(talkers, JSON.stringify(filetered));
+    try {
+        const arrayTalkers = await getAllTalkers();
+        const filtered = arrayTalkers.filter((talker) => talker.id !== Number(id));
+        await fs.writeFile(talkers, JSON.stringify(filtered));
+    } catch (error) {
+        return error;
+    }
 };
 
 module.exports = {

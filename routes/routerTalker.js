@@ -6,19 +6,27 @@ const talkerValidation = require('../services/talkerValidation');
 const routerTalker = Router();
 
 routerTalker.get('/talker', async (req, res) => {
-    const talkers = await getAllTalkers();
-    return res.status(200).json(talkers);
+    try {
+        const talkers = await getAllTalkers();
+        return res.status(200).json(talkers);
+    } catch (error) {
+        return error;
+    }
 });
 
 routerTalker.get('/talker/:id', async (req, res) => {
-    const { id } = req.params;
-    const talker = await getTalkerById(Number(id));
-    if (talker) {
-        return res.status(200).json(talker);
+    try {
+        const { id } = req.params;
+        const talker = await getTalkerById(Number(id));
+        if (talker) {
+            return res.status(200).json(talker);
+        }
+        return res.status(404).json({
+            message: 'Pessoa palestrante não encontrada',
+        });
+    } catch (error) {
+        return error;
     }
-    return res.status(404).json({
-        message: 'Pessoa palestrante não encontrada',
-      });
 });
 
 routerTalker.post('/talker', tokenValidation, talkerValidation, async (req, res) => {
@@ -33,7 +41,7 @@ routerTalker.post('/talker', tokenValidation, talkerValidation, async (req, res)
 
 routerTalker.put('/talker/:id', tokenValidation, talkerValidation, async (req, res) => {
     try {
-        const id = req.params;
+        const { id } = req.params;
         return res.status(200).json([{ id }]);
     } catch (error) {
         return error;
@@ -42,7 +50,7 @@ routerTalker.put('/talker/:id', tokenValidation, talkerValidation, async (req, r
 
 routerTalker.delete('/talker/:id', tokenValidation, async (req, res) => {
     try {
-        const id = req.params;
+        const { id } = req.params;
         deleteById(id);
         return res.status(204).end();
     } catch (error) {
