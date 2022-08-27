@@ -21,6 +21,22 @@ const getTalkerById = async (id) => {
     }
 };
 
+const addTalker = async (talker) => {
+    try {
+        const arrayTalkers = await getAllTalkers();
+        let id = 0;
+        arrayTalkers.forEach((t) => {
+            if (t.id > id) id = t.id;
+        });
+        const newTalker = { id: id + 1, ...talker };
+        const newTalkerList = [...arrayTalkers, newTalker];
+        await fs.writeFile(talkers, JSON.stringify(newTalkerList));
+        return newTalker;
+    } catch (error) {
+        return error;
+    }
+};
+
 const verifyId = async (provided) => {
     const arrayTalkers = await getAllTalkers();
     let savedId = null;
@@ -28,12 +44,6 @@ const verifyId = async (provided) => {
         if (saved.name === provided.name) savedId = saved.id;
     });
     if (savedId) return savedId;
-    
-    let last = 0;
-    arrayTalkers.forEach((saved) => {
-        if (saved.id > last) last = saved.id;
-    });
-    return last + 1;
 };
 
 const deleteById = async (id) => {
@@ -50,5 +60,6 @@ module.exports = {
     getAllTalkers,
     getTalkerById,
     verifyId,
+    addTalker,
     deleteById,
 };

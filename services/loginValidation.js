@@ -1,6 +1,5 @@
 const validateEmail = (req, res) => {
     const { email } = req.body;
-    console.log('email', email);
 
     if (!email) {
         return res.status(400).json({

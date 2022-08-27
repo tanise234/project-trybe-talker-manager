@@ -1,5 +1,11 @@
 const { Router } = require('express');
-const { getAllTalkers, getTalkerById, verifyId, deleteById } = require('../services/fileManager');
+const {
+    getAllTalkers,
+    getTalkerById,
+    verifyId,
+    deleteById,
+    addTalker,
+} = require('../services/fileManager');
 const tokenValidation = require('../services/tokenValidation');
 const talkerValidation = require('../services/talkerValidation');
 
@@ -33,7 +39,8 @@ routerTalker.post('/talker', tokenValidation, talkerValidation, async (req, res)
     try {
         const talker = req.body;
         const id = await verifyId(talker);
-        return res.status(201).json([{ id, ...talker }]);
+        const added = await addTalker(talker);
+        return res.status(201).json(added);
     } catch (error) {
         return error;
     }
