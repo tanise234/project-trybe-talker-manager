@@ -18,7 +18,6 @@ const validateEmail = (req, res) => {
 
 const validatePassword = (req, res) => {
     const { password } = req.body;
-    console.log('password', password);
     if (!password) {
         return res.status(400).json({
             message: 'O campo "password" é obrigatório',
@@ -32,9 +31,6 @@ const validatePassword = (req, res) => {
 };
 
 const loginValidation = (req, res, next) => {
-    const { email, password } = req.body;
-    console.log(email, password);
-
     validateEmail(req, res);
     validatePassword(req, res);
 

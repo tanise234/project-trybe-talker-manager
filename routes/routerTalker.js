@@ -1,5 +1,7 @@
 const { Router } = require('express');
-const { getAllTalkers, getTalkerById } = require('../services/fileManager');
+const { getAllTalkers, getTalkerById, verifyId } = require('../services/fileManager');
+const tokenValidation = require('../services/tokenValidation');
+const talkerValidation = require('../services/talkerValidation');
 
 const routerTalker = Router();
 
@@ -17,6 +19,16 @@ routerTalker.get('/talker/:id', async (req, res) => {
     return res.status(404).json({
         message: 'Pessoa palestrante não encontrada',
       });
+});
+
+routerTalker.post('/talker', tokenValidation, talkerValidation, async (req, res) => {
+    try {
+        const talker = req.body;
+        const id = await verifyId(talker);
+        return res.status(201).json([{ id, ...talker }]);
+    } catch (error) {
+        return error;
+    }
 });
 
 module.exports = routerTalker;

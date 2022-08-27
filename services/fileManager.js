@@ -21,7 +21,23 @@ const getTalkerById = async (id) => {
     }
 };
 
+const verifyId = async (provided) => {
+    const arrayTalkers = await getAllTalkers();
+    let savedId = null;
+    arrayTalkers.forEach((saved) => {
+        if (saved.name === provided.name) savedId = saved.id;
+    });
+    if (savedId) return savedId;
+    
+    let last = 0;
+    arrayTalkers.forEach((saved) => {
+        if (saved.id > last) last = saved.id;
+    });
+    return last + 1;
+};
+
 module.exports = {
     getAllTalkers,
     getTalkerById,
+    verifyId,
 };
