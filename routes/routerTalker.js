@@ -12,7 +12,7 @@ const talkerValidation = require('../services/talkerValidation');
 
 const routerTalker = Router();
 
-routerTalker.get('/talker/search?', tokenValidation, async (req, res) => {
+routerTalker.get('/talker/search', tokenValidation, async (req, res) => {
     try {
         const keyword = req.query.q;
         const searchResult = await getByKeyword(keyword);
