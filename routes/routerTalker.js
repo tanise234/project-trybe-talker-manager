@@ -2,19 +2,21 @@ const { Router } = require('express');
 const {
     getAllTalkers,
     getTalkerById,
-    deleteById,
+    getByKeyword,
     addTalker,
     updtTalker,
+    deleteById,
 } = require('../services/fileManager');
 const tokenValidation = require('../services/tokenValidation');
 const talkerValidation = require('../services/talkerValidation');
 
 const routerTalker = Router();
 
-routerTalker.get('/talker', async (req, res) => {
+routerTalker.get('/talker/search?', tokenValidation, async (req, res) => {
     try {
-        const talkers = await getAllTalkers();
-        return res.status(200).json(talkers);
+        const keyword = req.query.q;
+        const searchResult = await getByKeyword(keyword);
+        return res.status(200).json(searchResult);
     } catch (error) {
         return error;
     }
@@ -35,22 +37,10 @@ routerTalker.get('/talker/:id', async (req, res) => {
     }
 });
 
-routerTalker.get('/talker/search?q=searchTerm', tokenValidation, async (req, res) => {
+routerTalker.get('/talker', async (req, res) => {
     try {
-        const keyword = req.query;
-        console.log(keyword);
         const talkers = await getAllTalkers();
-        if (!keyword) return res.status(200).json(talkers);
-        return res.status(200).json([
-            { id: 1,
-name: 'Danielle Santos',
-              age: 56,
-              talk: {
-                watchedAt: '22/10/2019',
-                rate: 5,
-              },
-            },
-          ]);
+        return res.status(200).json(talkers);
     } catch (error) {
         return error;
     }

@@ -21,6 +21,17 @@ const getTalkerById = async (id) => {
     }
 };
 
+const getByKeyword = async (keyword) => {
+    try {
+        const arrayTalkers = await getAllTalkers();
+        const result = arrayTalkers
+        .filter((talker) => talker.name.toLowerCase().includes(keyword.toLowerCase()));
+        return result;
+    } catch (error) {
+        return error;
+    }
+};
+
 const addTalker = async (talker) => {
     try {
         const arrayTalkers = await getAllTalkers();
@@ -80,6 +91,7 @@ const deleteById = async (id) => {
 module.exports = {
     getAllTalkers,
     getTalkerById,
+    getByKeyword,
     verifyId,
     addTalker,
     updtTalker,
